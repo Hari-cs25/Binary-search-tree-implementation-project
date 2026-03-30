@@ -6,31 +6,7 @@ function Tree(arr){
  const sarr = arr.sort((a, b) => a - b);
  const root = buildTree(sarr);
 
- const prettyPrint = (node = root, prefix = '', isLeft = true) => {
-  if (node === null || node === undefined) {
-    return;
-  }
-
-  prettyPrint(node.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-}
-
-function includes(value, obj = root){
-    if(root.data === value)
-        return true;
-    else if(value < root.data && root.leftChild != null)
-        includes(value, root.leftChild)
-    else if(value > root.data && root.rightChild != null)
-        includes(value, root.rightChild)
-    else
-        return false;
-}
-
- return {prettyPrint, includes};
-}
-
-function buildTree(arr){
+ function buildTree(arr){
     const mid = arr[Math.floor(arr.length/2)];
     const root = Node(mid);
 
@@ -54,4 +30,43 @@ function treves(obj, item){
                     treves(obj.rightChild, item);
                 }
     }
+
+ const prettyPrint = (node = root, prefix = '', isLeft = true) => {
+  if (node === null || node === undefined) {
+    return;
+  }
+
+  prettyPrint(node.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+}
+
+function includes(value, obj = root){
+    if(root.data === value)
+        return true;
+    else if(value < root.data && root.leftChild != null)
+        return includes(value, root.leftChild)
+    else if(value > root.data && root.rightChild != null)
+        return includes(value, root.rightChild)
+    else
+        return false;
+}
+
+function insert(value){
+    if(includes(value))
+        return;
+
+    treves(root, value);
+}
+
+function deleteItem(value){
+    if(!includes(value))
+        return;
+
+     
+}
+
+ return {prettyPrint, includes, insert};
+}
+
 
