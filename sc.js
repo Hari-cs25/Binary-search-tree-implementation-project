@@ -63,7 +63,33 @@ function deleteItem(value){
     if(!includes(value))
         return;
 
-     
+     function find(obj){
+         if(obj.data === value){
+            if(obj.leftChild === null && obj.rightChild === null){
+                return null;
+            }else if(obj.leftChild != null && obj.rightChild != null){
+                
+            }else if(obj.leftChild != null && obj.rightChild === null){
+                const temp = {obj: obj.leftChild, name: 'leftChild'};
+                obj.leftChild = null;
+                return temp;
+            }else{
+                const temp = {obj: obj.rightChild, name: 'rightChild'};
+                obj.rightChild = null;
+                return temp;
+            }
+         }else if(value < obj.data){
+            let result = find(obj.leftChild);
+
+            if(result === null){
+                obj.leftChild = null;
+            }else if(result.name === 'leftChild'){
+                obj.leftChild = result.obj;
+            }else if(result.name === 'rightChild'){
+                obj.rightChild = result.obj;
+            }
+         }
+     }
 }
 
  return {prettyPrint, includes, insert};
