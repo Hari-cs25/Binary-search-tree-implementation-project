@@ -219,18 +219,64 @@ function postOrderTreversal(node=root){
         postOrderTreversal(node.rightChild);
     console.log(node.data);
 }
- return {prettyPrint, includes, insert, deleteItem, getRoot, levelOrderTraversal, inOrderTrevesal, preOrderTrevesal, postOrderTreversal};
+
+  function findItem(value, obj = root){
+    console.log(`"value: ${value}"`)
+            if(value === obj.data){
+                return obj;
+            }else if(value < obj.data){
+                return findItem(value, obj.leftChild)
+            }else if(value > obj.data){
+                return findItem(value, obj.rightChild)
+            }
+        }
+
+function height(value){
+    let node;
+    if(includes(value)){
+       node = findItem(value);
+
+        return findHeight(node);
+    }else
+        return undefined;
+
+}
+    function findHeight(node){
+        if(node === null){
+            return -1;
+        }
+        let left = findHeight(node.leftChild);
+        let right = findHeight(node.rightChild);
+
+        return Math.max(left,right)+1;
+    }
+
+    function depth(value, obj = root, count =0){
+        if(includes(value)){
+            if(value === obj.data){
+                return count;
+            }else if(value < obj.data){
+                if(obj.leftChild){
+                    ++count;
+                   return depth(value, obj.leftChild, count)
+                }
+            }else if(value > obj.data){
+                if(obj.rightChild){
+                    ++count;
+                   return depth(value, obj.rightChild, count)
+                }
+            }
+        }else{
+            return undefined;
+        }
+    }
+
+ return {prettyPrint, includes, insert, deleteItem, levelOrderTraversal, inOrderTrevesal, preOrderTrevesal, postOrderTreversal, height, depth};
 }
 
 const tree = Tree( [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 tree.prettyPrint()
-console.log(tree.deleteItem(4))
-tree.prettyPrint()
-console.log('Level order traversal: \n',)
-tree.levelOrderTraversal()
-console.log(`In Order trevesal:\n`)
-tree.inOrderTrevesal()
-console.log(`pre Order trevesal:\n`)
-tree.preOrderTrevesal()
-console.log(`post Order trevesal:\n`)
-tree.postOrderTreversal()
+const n =67
+console.log(`height of the node ${n}: ${tree.height(n)}`)
+const f = 7
+console.log(`depth of the node ${f}: ${tree.depth(f)}`)
