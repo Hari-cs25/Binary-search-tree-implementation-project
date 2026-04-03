@@ -1,11 +1,11 @@
-function Node(data){
+    function Node(data){
     return {data, leftChild:null, rightChild:null};
 }
 
 function Tree(arr){
  const sarr = [...new Set(arr.sort((a, b) => a - b))];
  console.log('sorted array->', sarr)
- const root = BuildTree(sarr, 0, sarr.length-1);
+ let root = BuildTree(sarr, 0, sarr.length-1);
 
 function BuildTree(arr, start, end){
     if(start > end)
@@ -22,7 +22,7 @@ function BuildTree(arr, start, end){
 
 
 function treves(obj, item){
-//console.log(obj,'\n');
+
         if(item === obj.data)
             return;
 
@@ -31,10 +31,8 @@ function treves(obj, item){
                 }else if( item > obj.data && obj.rightChild === null){
                     obj.rightChild = Node(item);
                 }else if( item < obj.data && obj.leftChild != null){
-                    //console.log(`\nleft move recursion\n`)
                     treves(obj.leftChild, item);
                 }else{
-                    //console.log(`\nright move recursion\n`)
                     treves(obj.rightChild, item);
                 }
     }
@@ -73,7 +71,7 @@ function deleteItem(value){
 
     find(root);
      function find(obj){
-        
+
          if(obj.data === value){
 console.log('"value cautch in the btree."')
 
@@ -195,13 +193,15 @@ function levelOrderTraversal() {
         console.log(line);
     }
 }
-
-function inOrderTrevesal(node = root, line){
+let line=[]
+function inOrderTrevesal(node = root){
     if(node.leftChild)
         inOrderTrevesal(node.leftChild);
-    console.log(node.data);
+    //console.log(node.data);
+    line.push(node.data)
     if(node.rightChild)
         inOrderTrevesal(node.rightChild);
+        return line;
 }
 
 function preOrderTrevesal(node=root){
@@ -271,12 +271,45 @@ function height(value){
         }
     }
 
- return {prettyPrint, includes, insert, deleteItem, levelOrderTraversal, inOrderTrevesal, preOrderTrevesal, postOrderTreversal, height, depth};
-}
+    function isBalanced(){
+        let result = checkBalance(root)
+        if(result === -1)
+            return false;
+        else
+            return true;
+    }
+    
+    function checkBalance(node=root){
+        if(node === null)
+         return 0;
+        
+        let left = checkBalance(node.leftChild)
+        if(left === -1)
+         return -1;
+        let right = checkBalance(node.rightChild)
+        if(right === -1)
+         return -1;
+        
+        if(Math.abs(left-right) > 1)
+         return -1;
+         
+         return Math.max(left, right)+1;
+    }
+    
+    function rebalance(){
+    const reOrddArr = inOrderTrevesal();
+    root = BuildTree(reOrddArr, 0, reOrddArr.length-1);
+    console.log('after rebuild:\n')
+    prettyPrint()
+    }
+    
+ return {prettyPrint, includes, insert, deleteItem, levelOrderTraversal, inOrderTrevesal, preOrderTrevesal, postOrderTreversal, height, depth, isBalanced, rebalance};
+    }
 
-const tree = Tree( [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-tree.prettyPrint()
-const n =67
-console.log(`height of the node ${n}: ${tree.height(n)}`)
-const f = 7
-console.log(`depth of the node ${f}: ${tree.depth(f)}`)
+    const tree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+    tree.insert(2)
+     tree.prettyPrint()
+    console.log(tree.isBalanced())
+    tree.rebalance()
+    tree.prettyPrint()
+        console.log(tree.isBalanced())
