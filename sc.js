@@ -306,10 +306,3 @@ function height(value){
  return {prettyPrint, includes, insert, deleteItem, levelOrderTraversal, inOrderTrevesal, preOrderTrevesal, postOrderTreversal, height, depth, isBalanced, rebalance};
     }
 
-    const tree = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-    tree.insert(2)
-     tree.prettyPrint()
-    console.log(tree.isBalanced())
-    tree.rebalance()
-    tree.prettyPrint()
-        console.log(tree.isBalanced())
